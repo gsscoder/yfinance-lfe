@@ -14,7 +14,7 @@ Just add it to your ``rebar.config`` deps:
   {deps, [
     ...
     {yfinance-lfe, ".*",
-      {git, "git@github.com:YOURNAME/yfinance-lfe.git", "master"}}
+      {git, "git@github.com:gsscoder/yfinance-lfe.git", "master"}}
       ]}.
 ```
 

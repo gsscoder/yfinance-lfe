@@ -35,6 +35,7 @@
        (ljson:get `(#b("results")))))
 
 (defun get-stock-quotes (xs)
+  "Fetch stock quotes from Yahoo Finance eg. get-stock-quotes ``(""MSFT"" ""ORCL"")."
   (case xs
     (`() `())
     (_ (->> xs

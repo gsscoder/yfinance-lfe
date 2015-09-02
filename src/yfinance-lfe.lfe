@@ -45,17 +45,24 @@
     dayLow (get-field #b("DaysLow") json)
     yearHigh (get-field #b("YearHigh") json)
     yearLow (get-field #b("YearLow") json)))
-    
-(defun parse-quotes (json)
-  (lists:map (
-	      lambda(x) (parse-quote x)) (ljson:get `(#b("quote")) json)))
 
-(defun parse-response (json)
+(defun get-nodes (isone json)
+  (let
+      ((path (element 2 (lists:nth 1 (lists:filter (lambda (y) (== (element 1 y) #b("quote"))) json)))))
+    (case isone
+      (`false path)
+      (_ `(,path)))))
+
+(defun parse-quotes (isone json)
+  (lists:map (
+	      lambda(x) (parse-quote x)) (get-nodes isone json)))
+
+(defun parse-response (isone json)
   (->> json
        (ljson:decode)
        (element 2)
        (ljson:get `(#b("results")))
-       (parse-quotes)))
+       (parse-quotes isone)))
 
 (defun get-stock-quotes (xs)
   "Fetch stock quotes from Yahoo Finance eg. get-stock-quotes `(""MSFT"" ""ORCL"")."
@@ -64,4 +71,4 @@
     (_ (->> xs
 	    (generate-yql-query)
 	    (run-request)
-	    (parse-response)))))
+	    (parse-response (=< (length xs) 1) )))))

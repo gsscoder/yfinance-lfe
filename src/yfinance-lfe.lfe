@@ -29,11 +29,33 @@
 	       (query-item "env" "store://datatables.org/alltableswithkeys") "&"
 	       (query-item "format" "json"))))
 
+(defun get-field (field json)
+  (erlang:binary_to_list
+   (element 2
+	    (lists:nth 1
+		       (lists:filter (lambda (y) (== (element 1 y) field)) json)))))
+
+(defun parse-quote (json)
+  (make-stock-quote
+    name (get-field #b("Name") json)
+    symbol (get-field #b("Symbol") json)
+    price (get-field #b("LastTradePriceOnly") json)
+    change (get-field #b("Change") json)
+    dayHigh (get-field #b("DaysHigh") json)
+    dayLow (get-field #b("DaysLow") json)
+    yearHigh (get-field #b("YearHigh") json)
+    yearLow (get-field #b("YearLow") json)))
+    
+(defun parse-quotes (json)
+  (lists:map (
+	      lambda(x) (parse-quote x)) (ljson:get `(#b("quote")) json)))
+
 (defun parse-response (json)
   (->> json
        (ljson:decode)
        (element 2)
-       (ljson:get `(#b("results")))))
+       (ljson:get `(#b("results")))
+       (parse-quotes)))
 
 (defun get-stock-quotes (xs)
   "Fetch stock quotes from Yahoo Finance eg. get-stock-quotes `(""MSFT"" ""ORCL"")."

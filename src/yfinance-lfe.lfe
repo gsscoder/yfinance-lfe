@@ -3,6 +3,7 @@
 
 (include-lib "clj/include/seq.lfe")
 (include-lib "clj/include/compose.lfe")
+(include-lib "yfinance-lfe/include/data-types.lfe")
 
 ;;; API functions
 

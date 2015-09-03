@@ -1,6 +1,7 @@
 # yfinance-lfe
 
-Port of F# library [YFinance.fs](https://github.com/gsscoder/YFinance.fs).
+Port of F# library [YFinance.fs](https://github.com/gsscoder/YFinance.fs),
+originally ported from [yfinance](https://github.com/owainlewis/yfinance) by @owainlewis.
 
 ## Introduction
 
